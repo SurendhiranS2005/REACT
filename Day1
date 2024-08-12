@@ -1,0 +1,197 @@
+ Q1) <script>
+      function alertmsg() {
+        alert("Message from Javascript Alert!");
+        console.log("Message to developer");
+      }
+    </script>
+
+import React from 'react';
+
+function App() {
+
+
+    return (
+        <div>
+            <h1>Let us see the output of JAVASCRIPT</h1>
+            <button onClick={alertmsg}>click</button>
+        </div>
+    );
+}
+
+export default App;
+
+Q2)
+ <script>
+    function referenceDataTypesDemo() {
+    let myobject = { name: "Madras" };
+    let newObject = myobject; 
+    myobject.name = "Chennai";
+    let myarray = ["a", "e", "i", "o"];
+    let vowelArray = myarray;
+    myarray.push("u");
+    console.log("newObject.name:", newObject.name); 
+    console.log("vowelArray:", vowelArray); 
+    alert("Check the console output!");
+}
+    </script>
+import React from 'react';
+function App() {
+    return (
+        <div>
+            <h1>Reference Data Types in JavaScript</h1>
+            <button onClick={referenceDataTypesDemo}>Reference Data Types</button>
+        </div>
+    );
+}
+
+export default App;
+
+Q3)
+
+import React from 'react';
+
+function App() {
+    return (
+        <div>
+            {
+                <p>Hello world</p>
+            }
+        </div>
+    );
+}
+
+export default App;
+
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import World from './World';
+
+ReactDOM.render(
+    <React.StrictMode>
+        <App />
+        <World />
+    </React.StrictMode>,
+    document.getElementById('root')
+);
+
+import React from 'react';
+
+function World() {
+    return (
+        <div>
+            <p>This is World Functional Component</p>
+        </div>
+    );
+}
+
+export default World;
+
+
+POD)
+Q1)
+
+// src/App.js
+import React from 'react';
+
+function App() {
+    return (
+        <div className="App">
+            {/* some default code */}
+        </div>
+    );
+}
+
+export default App;
+
+// src/Team.js
+import React from 'react';
+
+function Team() {
+    return (
+        <div>
+            <p>This is Team Functional Component</p>
+        </div>
+    );
+}
+
+export default Team;
+
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import Team from './Team';
+
+ReactDOM.render(
+    <React.StrictMode>
+        <App />
+        <Team />
+    </React.StrictMode>,
+    document.getElementById('root')
+);
+
+
+Q2)
+
+<script>
+      <h1>Primitive Data Types in JavaScript</h1>
+    <button onclick="primitiveDataTypesDemo()">Primitive Data Types</button>
+    <script src="app.js"></script>
+
+    </script>
+
+function primitiveDataTypesDemo() {
+   
+    let age = 18; 
+    let name = "kiran"; 
+    let setStatus = false;
+    let userDefault = undefined; 
+    let responseValue = null;
+
+    
+    console.log("Initial values:");
+    console.log("age:", age);
+    console.log("name:", name);
+    console.log("setStatus:", setStatus);
+    console.log("userDefault:", userDefault);
+    console.log("responseValue:", responseValue);
+
+       age = 25;
+    let oldage = age;
+    let status = setStatus;
+    setStatus = true;
+
+        console.log("Updated values:");
+    console.log("age:", age); // 25
+    console.log("oldage:", oldage); // 25
+    console.log("setStatus:", setStatus); // true
+    console.log("status:", status); // false
+
+    
+    alert("Check the console output!");
+}
+
+import React from 'react';
+
+function App() {
+    return (
+        <div className="App">
+            {/* some default code */}
+            <p>Primitive Data Types copy the values</p>
+            <button onClick={() => primitiveDataTypesDemo()}>Primitive Data Types</button>
+        </div>
+    );
+}
+
+export default App;
+
+
+
+
+
+
+
