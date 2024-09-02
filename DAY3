@@ -1,0 +1,34 @@
+import { useState } from "react";
+function ToogleMessage(){
+    const [showMessage,setshowMessage]=useState(false);
+    function toogleMessage(){
+        setshowMessage(!showMessage);
+    }
+    return(
+    <div>
+    <button onClick={toogleMessage}>
+        {showMessage ? 'Hide Message':'Show Message'}
+    </button>
+    {showMessage && <p>Hi! How are You!!</p>}
+    </div>
+    );
+
+}
+export default ToogleMessage;
+
+import { useState } from "react";
+function GokuTransformation(){
+    const [transformation,setTransformation]=useState('Kaioken');
+    function tt(){
+        setTransformation((prevtrans)=>prevtrans==='Kaioken' ? 'SuperSaiyan' :'Kaioken');
+    };
+    return(
+        <div>
+            <h1>current Transformation: {transformation}</h1>
+            <button onClick={tt}>
+                Toogle Transformation
+            </button>
+        </div>
+    );
+};
+export default GokuTransformation;
