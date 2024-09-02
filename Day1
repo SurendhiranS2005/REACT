@@ -93,7 +93,6 @@ export default World;
 POD)
 Q1)
 
-// src/App.js
 import React from 'react';
 
 function App() {
@@ -106,7 +105,6 @@ function App() {
 
 export default App;
 
-// src/Team.js
 import React from 'react';
 
 function Team() {
@@ -119,7 +117,6 @@ function Team() {
 
 export default Team;
 
-// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
