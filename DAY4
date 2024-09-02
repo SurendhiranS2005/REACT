@@ -1,0 +1,124 @@
+import React, { useState } from 'react';
+import { TextField, Autocomplete, Button, Typography } from '@mui/material';
+
+const FruitSurvey = () => {
+  const [name, setName] = useState('');
+  const [fruit, setFruit] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const fruits = ['Apple', 'Banana', 'Cherry', 'Durian', 'Elderberry'];
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+  };
+
+  return (
+    <div>
+      {!submitted ? (
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Choose a name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            data-testid="name"
+            fullWidth
+            margin="normal"
+          />
+          <Autocomplete
+            id="combo-box-demo"
+            options={fruits}
+            getOptionLabel={(option) => option}
+            renderInput={(params) => <TextField {...params} label="Choose a fruit" />}
+            value={fruit}
+            onChange={(event, newValue) => setFruit(newValue)}
+            data-testid="autocomplete"
+            fullWidth
+            margin="normal"
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            data-testid="button"
+            fullWidth
+            margin="normal"
+          >
+            Sample Screen
+          </Button>
+        </form>
+      ) : (
+        <Typography variant="h6">
+          Hello, {name}! Your favorite fruit is {fruit}.
+        </Typography>
+      )}
+    </div>
+  );
+};
+
+export default FruitSurvey;
+
+import React, { useState } from 'react';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+
+const LoginDialog = () => {
+  const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleLogin = () => {
+    // Add login logic here
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen} data-testid="login">
+        Login
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Login</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Username"
+            type="text"
+            fullWidth
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            data-testid="username"
+          />
+          <TextField
+            margin="dense"
+            label="Password"
+            type="password"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            data-testid="password"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" data-testid="cancel">
+            Cancel
+          </Button>
+          <Button onClick={handleLogin} color="primary" data-testid="dia-login">
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
+
+export default LoginDialog;
+
