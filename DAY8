@@ -1,1 +1,117 @@
+export const addItem = (item) => ({
+    type: 'ADD_ITEM',
+    payload: item,
+  });
+  
+  export const removeItem = (id) => ({
+    type: 'REMOVE_ITEM',
+    payload: { id },
+  });
+  
+  export const updateItem = (item) => ({
+    type: 'UPDATE_ITEM',
+    payload: item,
+  });
+  
+
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem, removeItem, updateItem } from './cartActions';
+
+const CartPage = () => {
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const handleAddItem = (item) => {
+    dispatch(addItem(item));
+  };
+
+  const handleRemoveItem = (id) => {
+    dispatch(removeItem(id));
+  };
+
+  const handleUpdateItem = (item) => {
+    dispatch(updateItem(item));
+  };
+
+  return (
+    <div>
+      <h2>Cart</h2>
+      <ul>
+        {cart.map((item) => (
+          <li key={item.id}>
+            {item.name} - ${item.price}
+            <button onClick={() => handleRemoveItem(item.id)}>Remove</button>
+            <button onClick={() => handleUpdateItem({...item, quantity: item.quantity + 1})}>
+              Increase Quantity
+            </button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => handleAddItem({ id: 3, name: 'New Item', price: 100 })}>
+        Add Item
+      </button>
+    </div>
+  );
+};
+
+export default CartPage;
+
+
+const initialState = {
+    cart: [],
+  };
+  
+  export const cartReducer = (state = initialState, action) => {
+    switch (action.type) {
+      case 'ADD_ITEM':
+        return {
+          ...state,
+          cart: [...state.cart, action.payload],
+        };
+      case 'REMOVE_ITEM':
+        return {
+          ...state,
+          cart: state.cart.filter(item => item.id !== action.payload.id),
+        };
+      case 'UPDATE_ITEM':
+        return {
+          ...state,
+          cart: state.cart.map(item =>
+            item.id === action.payload.id ? { ...item, ...action.payload } : item
+          ),
+        };
+      default:
+        return state;
+    }
+  };
+  
+import React,{useState,useEffect} from 'react';
+function Hookeffect()
+{
+    const[message,setMessage]=useState('Hello dear one,learning React...?')
+    useEffect(()=>
+    {
+        console.log('use effect hook called');
+        setTimeout(()=>
+        {
+            setMessage("Great.... This is time to learn about HOOKS");
+        },2000)
+    })
+return(
+    <div>
+<h2>{message}</h2>
+    </div>
+)
+}
+export default Hookeffect;
+
+
+
+import { createStore } from 'redux';
+import { cartReducer } from './cartReducer';
+
+const store = createStore(cartReducer);
+
+export default store;
 
