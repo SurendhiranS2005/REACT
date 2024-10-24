@@ -1,1 +1,234 @@
+CE Q1)
+withProductData.js
+import React from 'react';
+
+function withProductData(WrappedComponent, products) {
+  return function(props) {
+    return <WrappedComponent products={products} {...props} />;
+  };
+}
+
+export default withProductData;
+
+
+
+ProductList.js
+import React from 'react';
+function ProductList({ products }) {
+  return (
+    <div>
+      <h1>Product List</h1>
+      <ul>
+        {products.map((product, index) => (
+          <li key={index}>
+            <h2>{product.name}</h2>
+            <p>Price: ${product.price}</p>
+            <img src={product.image} alt={product.name} width="100" />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default ProductList;
+
+
+App.js
+import React from 'react';
+import withProductData from './withProductData';
+import ProductList from './ProductList';
+
+const electronics = [
+  { name: 'Laptop', price: 1000, image: 'https://example.com/laptop.jpg' },
+  { name: 'Smartphone', price: 800, image: 'https://example.com/smartphone.jpg' },
+];
+
+const groceries = [
+  { name: 'Apple', price: 1, image: 'https://example.com/apple.jpg' },
+  { name: 'Banana', price: 0.5, image: 'https://example.com/banana.jpg' },
+];
+
+function App() {
+  const ElectronicsList = withProductData(ProductList, electronics);
+  const GroceriesList = withProductData(ProductList, groceries);
+
+  return (
+    <div>
+      <ElectronicsList />
+      <GroceriesList />
+    </div>
+  );
+}
+
+export default App;
+
+
+PAH Q1)
+
+ProductContext.js
+
+import React, { createContext, useState, useEffect } from 'react';
+
+// Create the context
+export const ProductContext = createContext();
+
+// Create a provider component
+export const ProductProvider = ({ children }) => {
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 1000]); // default range
+  
+  // Fetch categories and products asynchronously (assuming from API)
+  useEffect(() => {
+    const fetchCategoriesAndProducts = async () => {
+      // Simulated API fetch
+      const fetchedCategories = await fetch('/api/categories');
+      const fetchedProducts = await fetch('/api/products');
+      
+      setCategories(await fetchedCategories.json());
+      setProducts(await fetchedProducts.json());
+      setFilteredProducts(await fetchedProducts.json()); // Initially no filtering
+    };
+
+    fetchCategoriesAndProducts();
+  }, []);
+
+  const filterByCategory = (selectedCategory) => {
+    if (selectedCategory === 'All') {
+      setFilteredProducts(products); // No filter
+    } else {
+      const filtered = products.filter(product => product.category === selectedCategory);
+      setFilteredProducts(filtered);
+    }
+  };
+
+  const filterByPrice = (min, max) => {
+    const filtered = products.filter(product => product.price >= min && product.price <= max);
+    setFilteredProducts(filtered);
+  };
+
+  return (
+    <ProductContext.Provider
+      value={{
+        categories,
+        filteredProducts,
+        filterByCategory,
+        filterByPrice,
+        priceRange,
+        setPriceRange
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
+  );
+};
+
+CategoryFilter.js
+
+import React, { useContext } from 'react';
+import { ProductContext } from './ProductContext';
+
+const CategoryFilter = () => {
+  const { categories, filterByCategory } = useContext(ProductContext);
+
+  return (
+    <div>
+      <h3>Filter by Category:</h3>
+      <select onChange={(e) => filterByCategory(e.target.value)}>
+        <option value="All">All</option>
+        {categories.map(category => (
+          <option key={category.id} value={category.name}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+export default CategoryFilter;
+
+PriceFilter.js
+
+import React, { useContext, useState } from 'react';
+import { ProductContext } from './ProductContext';
+
+const PriceFilter = () => {
+  const { filterByPrice, priceRange, setPriceRange } = useContext(ProductContext);
+
+  const handlePriceChange = () => {
+    filterByPrice(priceRange[0], priceRange[1]);
+  };
+
+  return (
+    <div>
+      <h3>Filter by Price:</h3>
+      <input
+        type="number"
+        value={priceRange[0]}
+        onChange={(e) => setPriceRange([e.target.value, priceRange[1]])}
+      />
+      <input
+        type="number"
+        value={priceRange[1]}
+        onChange={(e) => setPriceRange([priceRange[0], e.target.value])}
+      />
+      <button onClick={handlePriceChange}>Apply</button>
+    </div>
+  );
+};
+
+export default PriceFilter;
+
+ProductList.js
+
+import React, { useContext } from 'react';
+import { ProductContext } from './ProductContext';
+
+const ProductList = () => {
+  const { filteredProducts } = useContext(ProductContext);
+
+  return (
+    <div>
+      <h3>Products</h3>
+      <ul>
+        {filteredProducts.map(product => (
+          <li key={product.id}>
+            {product.name} - ${product.price}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ProductList;
+
+App.js
+
+import React from 'react';
+import { ProductProvider } from './ProductContext';
+import CategoryFilter from './CategoryFilter';
+import PriceFilter from './PriceFilter';
+import ProductList from './ProductList';
+
+function App() {
+  return (
+    <ProductProvider>
+      <div className="App">
+        <h1>Online Store</h1>
+        <CategoryFilter />
+        <PriceFilter />
+        <ProductList />
+      </div>
+    </ProductProvider>
+  );
+}
+
+export default App;
+
+
+
 
